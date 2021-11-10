@@ -25,6 +25,7 @@ const container = document.querySelector('.container')
 const boxContainer = document.querySelector('.middle')
 const modal = document.querySelector('.modal')
 
+// Open modal and close
 let htmlBox = data.map((item) => {
 	return `<div class="box" onclick=>
 		<div class="box_icon">
@@ -39,7 +40,6 @@ let htmlBox = data.map((item) => {
 		</p>
 		</div>`
 })
-
 boxContainer.innerHTML = htmlBox.join('')
 const openBtns = Array.from(document.querySelectorAll('.box'))
 openBtns.forEach((btn, index) => {
@@ -63,15 +63,44 @@ openBtns.forEach((btn, index) => {
 		modal.innerHTML = htmlModal
 		container.classList.add('active')
 		modal.classList.add('active')
-		document.body.style.overflow = 'hidden'
+		modal.style.transition = `transform 0.2s ease-in-out`
+		document.body.classList.add('active')
+		setTimeout(() => {
+			modal.style.transition = ''
+		}, 500)
 	}
 })
 
+let isClose
+const handleTouchStart = (e) => {
+	console.log(e.touches[0].clientY)
+}
+const handleTouchMove = (e) => {
+	modal.style.marginTop = `${Math.floor(e.touches[0].clientY) - 35}px`
+	// console.log(`touchmove:${e.touches[0].clientY}`)
+}
+
+const handleTouchEnd = () => {
+	if (isClose) {
+		closeModal()
+	} else {
+		modal.style.marginTop = ''
+		container.style.transform = ''
+	}
+}
+
 function closeModal() {
+	modal.style.transition = `transform 0.2s ease-in-out`
 	container.classList.remove('active')
 	modal.classList.remove('active')
-	document.body.style.overflow = ''
+	document.body.classList.remove('active')
+	modal.style.transform = ``
 	setTimeout(() => {
 		modal.innerHTML = ''
+		modal.style.transition = ''
 	}, 500)
 }
+
+modal.addEventListener('touchstart', handleTouchStart)
+modal.addEventListener('touchmove', handleTouchMove)
+modal.addEventListener('touchend', handleTouchEnd)

@@ -7,17 +7,23 @@
 $bgColor: #fff;
 $radius: 0.7rem;
 body {
-	background-color: #000;
+	background-color: #fff;
+	transition: background-color 0.2s ease-in-out;
 	font-family: Arial, Helvetica, sans-serif;
+	&.active {
+		overflow: hidden;
+		background-color: #000;
+	}
 }
 
 .container {
 	background-color: $bgColor;
-	transition: all 0.3s linear;
+	transition: 0.2s ease-in-out;
 	height: 100vh;
+	overflow: hidden;
+	border-radius: $radius;
 	&.active {
 		transform: scale(0.94);
-		border-radius: $radius;
 		margin-top: -0.6rem;
 		background-color: rgba(255, 255, 255, 0.9);
 		backdrop-filter: blur(5px);
@@ -92,7 +98,6 @@ body {
 	overflow: hidden;
 	min-height: 100vh;
 	transform: translateY(100%);
-	transition: all 0.3s linear;
 	&.active {
 		transform: translateY(0);
 	}
