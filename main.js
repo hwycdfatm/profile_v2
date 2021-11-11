@@ -116,7 +116,7 @@ function handleOpenModal() {
 	})
 
 	let isClose,
-		touchPosition,
+		touchPosition = null,
 		screenHeight = window.screen.height
 
 	const handleTouchStart = (e) => {
