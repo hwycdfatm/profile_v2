@@ -140,6 +140,7 @@ function handleOpenModal() {
 		} else {
 			isClose = true
 		}
+                touchPosition = null
 	}
 
 	const handleTouchEnd = () => {
