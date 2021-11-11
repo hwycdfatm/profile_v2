@@ -140,7 +140,7 @@ function handleOpenModal() {
 		} else {
 			isClose = true
 		}
-                touchPosition = null
+                
 	}
 
 	const handleTouchEnd = () => {
@@ -154,6 +154,7 @@ function handleOpenModal() {
 				modal.style.transition = ``
 			}, 200)
 		}
+touchPosition = null
 	}
 
 	modal.addEventListener('touchstart', handleTouchStart)
