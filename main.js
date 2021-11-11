@@ -1,7 +1,11 @@
-const data = [
+const container = document.querySelector('.container')
+const boxContainer = document.querySelector('.middle')
+const modal = document.querySelector('.modal')
+
+const dataButton = [
 	{
-		title: 'Thông tin cơ bản',
-		icon: 'M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z',
+		title: 'Thông tin cá nhân',
+		icon: 'M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2',
 		description: 'Thông tin cơ bản của user',
 	},
 	{
@@ -10,9 +14,9 @@ const data = [
 		description: 'Các kỹ năng của user',
 	},
 	{
-		title: 'Sở thích',
-		icon: 'M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z',
-		description: 'Các sở thích của user',
+		title: 'Các sản phẩm',
+		icon: 'M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z',
+		description: 'Các sản phẩm của user',
 	},
 	{
 		title: 'Thông tin liên hệ',
@@ -21,86 +25,110 @@ const data = [
 	},
 ]
 
-const container = document.querySelector('.container')
-const boxContainer = document.querySelector('.middle')
-const modal = document.querySelector('.modal')
+function renderToHtml() {
+	// Open modal and close
+	let htmlBox = dataButton.map((item) => {
+		return `<div class="box" onclick=>
+			<div class="box_icon">
+			<svg style="width:24px; height:24px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+			xmlns="http://www.w3.org/2000/svg">
+			<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+			d="${item.icon}"></path>
+			</svg>
+			</div>
+			<p class="box_title">
+			${item.title}
+			</p>
+			</div>`
+	})
 
-// Open modal and close
-let htmlBox = data.map((item) => {
-	return `<div class="box" onclick=>
-		<div class="box_icon">
-		<svg style="width:24px; height:24px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-		xmlns="http://www.w3.org/2000/svg">
-		<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-		d="${item.icon}"></path>
-		</svg>
-		</div>
-		<p class="box_title">
-		${item.title}
-		</p>
-		</div>`
-})
-boxContainer.innerHTML = htmlBox.join('')
-const openBtns = Array.from(document.querySelectorAll('.box'))
-openBtns.forEach((btn, index) => {
-	btn.onclick = () => {
-		let htmlModal = `<div class="modal_heading">
-							<button id="back" class="modal_heading_btn btn_back">
-								<svg style="width:24px; height:24px" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-									xmlns="http://www.w3.org/2000/svg">
-									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="${data[index].icon}">
-									</path>
-								</svg></button>
-							<div class="modal_heading_title">
-								${data[index].title}
+	boxContainer.innerHTML = htmlBox.join('')
+}
+
+function handleOpenModal() {
+	const openBtns = Array.from(document.querySelectorAll('.box'))
+
+	openBtns.forEach((btn, index) => {
+		btn.onclick = () => {
+			let htmlModal = `<div class="modal_heading">
+								<button id="back" class="modal_heading_btn btn_back">
+									<svg style="width:24px; height:24px;" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+									</svg>
+								</button>
+								<div class="modal_heading_title">
+									${dataButton[index].title}
+								</div>
+								<button onclick="closeModal()" class="modal_heading_btn btn_close">hủy</button>
 							</div>
-							<button onclick="closeModal()" class="modal_heading_btn btn_close">hủy</button>
-						</div>
-						<div class="modal_content">
-							${data[index].description}
-						</div>`
+							<div class="modal_content">
+								${dataButton[index].description}
+							</div>`
 
-		modal.innerHTML = htmlModal
-		container.classList.add('active')
-		modal.classList.add('active')
-		modal.style.transition = `transform 0.2s ease-in-out`
-		document.body.classList.add('active')
-		setTimeout(() => {
-			modal.style.transition = ''
-		}, 500)
+			modal.innerHTML = htmlModal
+			container.classList.add('active')
+			modal.classList.add('active')
+			modal.style.transition = `all 0.2s ease-in-out`
+			setTimeout(() => {
+				modal.style.transition = ''
+			}, 200)
+		}
+	})
+
+	let isClose
+	let touchPosition
+	let screenHeight = window.screen.height
+	const handleTouchStart = (e) => {
+		touchPosition = e.touches[0].clientY
 	}
-})
+	const handleTouchMove = (e) => {
+		let touch = touchPosition
+		if (touch == null) return
+		let currentTouch = e.touches[0].clientY
+		let difference = currentTouch - touch
 
-let isClose
-const handleTouchStart = (e) => {
-	console.log(e.touches[0].clientY)
-}
-const handleTouchMove = (e) => {
-	modal.style.marginTop = `${Math.floor(e.touches[0].clientY) - 35}px`
-	// console.log(`touchmove:${e.touches[0].clientY}`)
-}
-
-const handleTouchEnd = () => {
-	if (isClose) {
-		closeModal()
-	} else {
-		modal.style.marginTop = ''
-		container.style.transform = ''
+		if (difference > 0) {
+			container.style.transform = `scale(${
+				difference / screenHeight / 25 + 0.94
+			})`
+			modal.style.marginTop = `${Math.floor(difference) - 35}px`
+		}
+		if (difference < screenHeight / 2.5) {
+			isClose = false
+		} else {
+			isClose = true
+		}
 	}
+
+	const handleTouchEnd = () => {
+		container.style.transform = ``
+		if (isClose) {
+			closeModal()
+		} else {
+			modal.style.transition = `all 0.2s ease-in-out`
+			modal.style.marginTop = ''
+			setTimeout(() => {
+				modal.style.transition = ``
+			}, 200)
+		}
+	}
+
+	modal.addEventListener('touchstart', handleTouchStart)
+	modal.addEventListener('touchmove', handleTouchMove)
+	modal.addEventListener('touchend', handleTouchEnd)
 }
 
 function closeModal() {
-	modal.style.transition = `transform 0.2s ease-in-out`
+	modal.style.transition = `all 0.2s ease-in-out`
 	container.classList.remove('active')
 	modal.classList.remove('active')
-	document.body.classList.remove('active')
-	modal.style.transform = ``
 	setTimeout(() => {
 		modal.innerHTML = ''
 		modal.style.transition = ''
+		modal.style.marginTop = ''
 	}, 500)
 }
 
-modal.addEventListener('touchstart', handleTouchStart)
-modal.addEventListener('touchmove', handleTouchMove)
-modal.addEventListener('touchend', handleTouchEnd)
+renderToHtml()
+
+handleOpenModal()
