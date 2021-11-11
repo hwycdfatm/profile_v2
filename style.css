@@ -7,8 +7,8 @@
 
 body {
   background-color: #000;
-  -webkit-transition: all 0.2s ease-in-out;
-  transition: all 0.2s ease-in-out;
+  -webkit-transition: all 0.2s cubic-bezier(0.06, 0.04, 1, 1);
+  transition: all 0.2s cubic-bezier(0.06, 0.04, 1, 1);
   font-family: Arial, Helvetica, sans-serif;
   height: 100vh;
   overflow: hidden;
@@ -16,8 +16,8 @@ body {
 
 .container {
   background-color: #fff;
-  -webkit-transition: all 0.2s ease-in-out;
-  transition: all 0.2s ease-in-out;
+  -webkit-transition: all 0.2s cubic-bezier(0.06, 0.04, 1, 1);
+  transition: all 0.2s cubic-bezier(0.06, 0.04, 1, 1);
   overflow: hidden;
   height: 100vh;
   padding: 0.9rem;
@@ -25,9 +25,19 @@ body {
 
 .container.active {
   border-radius: 0.7rem;
-  -webkit-transform: scale(0.94);
-          transform: scale(0.94);
-  margin-top: -0.6rem;
+  -webkit-transform: scale(0.96);
+          transform: scale(0.96);
+  position: relative;
+}
+
+.container.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(241, 235, 235, 0.2);
 }
 
 .container .top {
@@ -125,7 +135,7 @@ body {
   background-color: #fff;
   position: fixed;
   z-index: 10;
-  top: 1.3rem;
+  top: 1.5rem;
   left: 0;
   right: 0;
   border-radius: 0.7rem;
@@ -180,9 +190,50 @@ body {
 
 .modal_heading_btn.btn_back {
   left: 1rem;
+  display: none;
 }
 
 .modal_content {
   padding: 0 10px;
+  overflow: hidden;
+  background-color: #fff;
+  z-index: 1;
+}
+
+.modal_content_container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: nowrap;
+      flex-wrap: nowrap;
+  -webkit-transition: all 0.2s cubic-bezier(0.06, 0.04, 1, 1);
+  transition: all 0.2s cubic-bezier(0.06, 0.04, 1, 1);
+}
+
+.modal_content_container.active {
+  -webkit-transform: translateX(-100%);
+          transform: translateX(-100%);
+}
+
+.modal_content_box {
+  width: 100%;
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
+  margin-right: 10px;
+  padding: 0 10px;
+}
+
+.modal_content_box_button {
+  outline: none;
+  border: none;
+  width: 100%;
+  height: 3rem;
+  border-radius: 10px;
+  font-size: 16px;
+  background-color: rgba(0, 0, 0, 0.9);
+  color: #fff;
 }
 /*# sourceMappingURL=style.css.map */
