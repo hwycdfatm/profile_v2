@@ -6,13 +6,13 @@
 // Variable
 $bgColor: #fff;
 $bgBox: #fbfbfb;
-$bgBoxButton: #998cebe3;
+$bgBoxButton: #998ceb;
 $radius: 0.7rem;
 $animation: cubic-bezier(0.06, 0.04, 1, 1);
 body {
 	background-color: #000;
 	transition: all 0.2s $animation;
-	font-family: Arial, Helvetica, sans-serif;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 	height: 100vh;
 	overflow: hidden;
 }
@@ -21,8 +21,10 @@ body {
 	background-color: $bgColor;
 	transition: all 0.2s $animation;
 	overflow: hidden;
-	height: 100vh;
+	height: 100%;
+	max-height: 100vh;
 	padding: 0.9rem;
+	position: relative;
 	&.active {
 		border-radius: $radius;
 		transform: scale(0.96);
@@ -38,9 +40,12 @@ body {
 		}
 	}
 	.top {
+		z-index: 10;
+		position: relative;
 		display: flex;
 		border-radius: $radius;
-		background-color: $bgBoxButton;
+		background-color: #74ebd5;
+		background-image: linear-gradient(90deg, #74ebd5 0%, #9face6 100%);
 		padding: 0.5rem;
 		.logo {
 			max-height: 100px;
@@ -55,9 +60,18 @@ body {
 		}
 		.info {
 			color: #000;
+			& > h4 {
+				margin-bottom: 10px;
+			}
+			& > span {
+				font-size: 14px;
+				font-weight: 400;
+			}
 		}
 	}
 	.middle {
+		z-index: 10;
+		position: relative;
 		display: flex;
 		flex-direction: column;
 		padding: 1.2rem 0;
@@ -73,6 +87,7 @@ body {
 			border-bottom: 2px solid white;
 			background-color: $bgBox;
 			border-radius: $radius;
+			box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 			&_icon {
 				display: flex;
 				align-items: center;
@@ -89,6 +104,49 @@ body {
 			&:last-child {
 				margin-bottom: 0;
 				border-bottom: none;
+			}
+		}
+	}
+
+	.blob {
+		z-index: 1;
+		position: absolute;
+
+		&.blob1 {
+			width: 20rem;
+			height: 20rem;
+			left: -5rem;
+			background-color: #8bc6ec;
+			background-image: linear-gradient(135deg, #8bc6ec 0%, #9599e2 100%);
+			border-radius: 70% 35% 36% 59% / 54% 40% 60% 56%;
+			@media (max-width: 555px) {
+				left: -20%;
+			}
+		}
+		&.blob2 {
+			width: 15rem;
+			height: 15rem;
+			left: -2rem;
+			bottom: 2rem;
+			border-radius: 73% 80% 78% 88% / 100% 76% 88% 49%;
+			background-color: #fbac7ee5;
+			background-image: linear-gradient(62deg, #fbac7ee5 0%, #f7cf68e1 100%);
+			@media (max-width: 555px) {
+				bottom: -5rem;
+				left: -20%;
+			}
+		}
+		&.blob3 {
+			width: 20rem;
+			height: 20rem;
+			bottom: 5rem;
+			right: -1rem;
+			transform: rotate(45deg);
+			background-color: #a9c9ff;
+			background-image: linear-gradient(180deg, #a9c9ff 0%, #ffbbec 100%);
+			border-radius: 100% 0% 100% 100% / 100% 74% 100% 73%;
+			@media (max-width: 555px) {
+				right: -50%;
 			}
 		}
 	}
@@ -146,32 +204,42 @@ body {
 		background-color: #fff;
 		&_container {
 			display: flex;
-			flex-wrap: nowrap;
-			transition: all 0.2s $animation;
-			&.active {
-				transform: translateX(-100%);
-			}
-		}
-		&_box {
-			width: 100%;
-			flex-grow: 1;
-			flex-shrink: 0;
-			margin-right: 10px;
-			padding: 5px 10px;
-			overflow: auto;
+			flex-direction: column;
 			height: calc(100vh - 70px);
-
-			&_button {
-				margin-bottom: 5px;
-				margin-top: 5px;
-				outline: none;
-				border: none;
+			margin-top: 10px;
+			&_box {
 				width: 100%;
-				height: 4rem;
-				border-radius: 10px;
-				font-size: 16px;
-				background-color: $bgBoxButton;
-				color: #fff;
+				height: 5rem;
+				border: 1px solid #3251;
+				margin-top: 5px;
+				margin-bottom: 5px;
+				border-radius: $radius;
+				& > p {
+					padding: 5px;
+					line-height: 5rem;
+					color: #142f43;
+					font-size: larger;
+					margin-left: 1rem;
+				}
+			}
+			.social {
+				width: 100%;
+				display: flex;
+				flex-direction: column;
+				&-item {
+					padding: 1rem;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					color: #1b1b1b;
+					text-decoration: none;
+					font-weight: 600;
+					margin-top: 5px;
+					margin-bottom: 5px;
+					& > span {
+						margin-left: 5px;
+					}
+				}
 			}
 		}
 	}
