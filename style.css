@@ -10,7 +10,8 @@ body {
   -webkit-transition: all 0.2s cubic-bezier(0.06, 0.04, 1, 1);
   transition: all 0.2s cubic-bezier(0.06, 0.04, 1, 1);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  height: 100vh;
+  height: 100%;
+  max-height: 100vh;
   overflow: hidden;
 }
 
@@ -19,10 +20,15 @@ body {
   -webkit-transition: all 0.2s cubic-bezier(0.06, 0.04, 1, 1);
   transition: all 0.2s cubic-bezier(0.06, 0.04, 1, 1);
   overflow: hidden;
-  height: 100%;
-  max-height: 100vh;
+  height: 100vh;
   padding: 0.9rem;
   position: relative;
+}
+
+@media (min-width: 555px) {
+  .container {
+    padding: 2rem;
+  }
 }
 
 .container.active {
@@ -84,6 +90,20 @@ body {
 .container .middle {
   z-index: 10;
   position: relative;
+  padding: 1.2rem 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  height: calc(100vh - 8rem);
+}
+
+@media (min-width: 555px) {
+  .container .middle {
+    height: calc(100vh - 10rem);
+  }
+}
+
+.container .middle .box_container {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -91,10 +111,18 @@ body {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  padding: 1.2rem 0;
+  width: 7rem;
+  margin-right: 2rem;
 }
 
-.container .middle .box {
+@media (max-width: 555px) {
+  .container .middle .box_container {
+    width: 100%;
+    margin-right: 0;
+  }
+}
+
+.container .middle .box_container .box {
   cursor: pointer;
   height: 4rem;
   padding-left: 1.2rem;
@@ -109,14 +137,28 @@ body {
           justify-content: flex-start;
   margin-top: 5px;
   margin-bottom: 5px;
-  border-bottom: 2px solid white;
   background-color: #fbfbfb;
   border-radius: 0.7rem;
   -webkit-box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
           box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 
-.container .middle .box_icon {
+@media (min-width: 555px) {
+  .container .middle .box_container .box {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    height: 7rem;
+    width: 7rem;
+    padding-left: 0;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+  }
+}
+
+.container .middle .box_container .box_icon {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -128,24 +170,57 @@ body {
           justify-content: center;
 }
 
-.container .middle .box_title {
+.container .middle .box_container .box_title {
   margin-left: 1.2rem;
   line-height: 24px;
   font-weight: 500;
 }
 
-.container .middle .box:first-child {
+@media (min-width: 555px) {
+  .container .middle .box_container .box_title {
+    margin-left: 0;
+    line-height: none;
+    font-size: 12px;
+  }
+}
+
+.container .middle .box_container .box:first-child {
   margin-top: 0;
 }
 
-.container .middle .box:last-child {
+.container .middle .box_container .box:last-child {
   margin-bottom: 0;
   border-bottom: none;
+}
+
+.container .middle .box_content {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  display: none;
+  background-color: transparent;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+          box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+  border-radius: 0.7rem;
+  background-color: rgba(255, 255, 255, 0.199);
+}
+
+@media (min-width: 555px) {
+  .container .middle .box_content {
+    display: block;
+  }
 }
 
 .container .blob {
   z-index: 1;
   position: absolute;
+  display: none;
+}
+
+@media (max-width: 555px) {
+  .container .blob {
+    display: block;
+  }
 }
 
 .container .blob.blob1 {
@@ -196,6 +271,25 @@ body {
 @media (max-width: 555px) {
   .container .blob.blob3 {
     right: -50%;
+  }
+}
+
+.container .blob.blob4 {
+  width: 20rem;
+  height: 20rem;
+  top: 30%;
+  left: 30%;
+  -webkit-transform: rotate(45deg);
+          transform: rotate(45deg);
+  background-color: #ff9a8b;
+  background-image: -webkit-gradient(linear, left top, right top, from(#ff9a8b), color-stop(55%, #ff6a88), to(#ff99ac));
+  background-image: linear-gradient(90deg, #ff9a8b 0%, #ff6a88 55%, #ff99ac 100%);
+  border-radius: 100% 100% 100% 100% / 100% 44% 100% 63%;
+}
+
+@media (max-width: 555px) {
+  .container .blob.blob4 {
+    display: none;
   }
 }
 
@@ -327,5 +421,21 @@ body {
 
 .modal_content_container .social-item > span {
   margin-left: 5px;
+}
+
+.canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  display: none;
+}
+
+@media (min-width: 555px) {
+  .canvas {
+    display: block;
+  }
 }
 /*# sourceMappingURL=style.css.map */

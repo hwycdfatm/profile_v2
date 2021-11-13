@@ -1,6 +1,9 @@
 const container = document.querySelector('.container')
-const boxContainer = document.querySelector('.middle')
+const boxContainer = document.querySelector('.box_container')
 const modal = document.querySelector('.modal')
+
+const timeOut = 200
+
 // Check mobile
 const isMobileDevice = /Mobi/i.test(window.navigator.userAgent)
 const dataButton = [
@@ -110,6 +113,8 @@ function renderToHtml() {
 }
 
 function handleOpenModal() {
+	if (window.screen.width >= 555) return
+
 	const openBtns = Array.from(document.querySelectorAll('.box'))
 
 	openBtns.forEach((btn, index) => {
@@ -136,12 +141,13 @@ function handleOpenModal() {
 			modal.style.transition = `all 0.2s cubic-bezier(0.06, 0.04, 1, 1)`
 			setTimeout(() => {
 				modal.style.transition = ''
-			}, 200)
+			}, timeOut)
 		}
 	})
 }
 
 function handleTouchModal() {
+	if (window.screen.width >= 555) return
 	let isClose = false,
 		touchPosition,
 		screenHeight = window.screen.height
@@ -177,7 +183,7 @@ function handleTouchModal() {
 			modal.style.marginTop = ''
 			setTimeout(() => {
 				modal.style.transition = ``
-			}, 200)
+			}, timeOut)
 		}
 		isClose = false
 	}
@@ -195,9 +201,9 @@ function closeModal() {
 		modal.innerHTML = ''
 		modal.style.transition = ''
 		modal.style.marginTop = ''
-	}, 500)
+	}, timeOut)
 }
 
 renderToHtml()
-handleTouchModal()
 handleOpenModal()
+handleTouchModal()

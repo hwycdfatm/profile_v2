@@ -9,11 +9,15 @@ $bgBox: #fbfbfb;
 $bgBoxButton: #998ceb;
 $radius: 0.7rem;
 $animation: cubic-bezier(0.06, 0.04, 1, 1);
+
+$breakPoint: 555px;
+
 body {
 	background-color: #000;
 	transition: all 0.2s $animation;
 	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-	height: 100vh;
+	height: 100%;
+	max-height: 100vh;
 	overflow: hidden;
 }
 
@@ -21,10 +25,12 @@ body {
 	background-color: $bgColor;
 	transition: all 0.2s $animation;
 	overflow: hidden;
-	height: 100%;
-	max-height: 100vh;
+	height: 100vh;
 	padding: 0.9rem;
 	position: relative;
+	@media (min-width: $breakPoint) {
+		padding: 2rem;
+	}
 	&.active {
 		border-radius: $radius;
 		transform: scale(0.96);
@@ -72,38 +78,75 @@ body {
 	.middle {
 		z-index: 10;
 		position: relative;
-		display: flex;
-		flex-direction: column;
 		padding: 1.2rem 0;
-		.box {
-			cursor: pointer;
-			height: 4rem;
-			padding-left: 1.2rem;
+		display: flex;
+		height: calc(100vh - 8rem);
+		@media (min-width: $breakPoint) {
+			height: calc(100vh - 10rem);
+		}
+		.box_container {
 			display: flex;
-			align-items: center;
-			justify-content: flex-start;
-			margin-top: 5px;
-			margin-bottom: 5px;
-			border-bottom: 2px solid white;
-			background-color: $bgBox;
-			border-radius: $radius;
-			box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-			&_icon {
+			flex-direction: column;
+			width: 7rem;
+			margin-right: 2rem;
+			@media (max-width: $breakPoint) {
+				width: 100%;
+				margin-right: 0;
+			}
+			.box {
+				cursor: pointer;
+				height: 4rem;
+				padding-left: 1.2rem;
 				display: flex;
 				align-items: center;
-				justify-content: center;
+				justify-content: flex-start;
+				margin-top: 5px;
+				margin-bottom: 5px;
+				background-color: $bgBox;
+				border-radius: $radius;
+				box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+
+				@media (min-width: $breakPoint) {
+					flex-direction: column;
+					height: 7rem;
+					width: 7rem;
+					padding-left: 0;
+					justify-content: center;
+				}
+				&_icon {
+					display: flex;
+					align-items: center;
+					justify-content: center;
+				}
+				&_title {
+					margin-left: 1.2rem;
+					line-height: 24px;
+					font-weight: 500;
+					@media (min-width: $breakPoint) {
+						margin-left: 0;
+						line-height: none;
+						font-size: 12px;
+					}
+				}
+				&:first-child {
+					margin-top: 0;
+				}
+				&:last-child {
+					margin-bottom: 0;
+					border-bottom: none;
+				}
 			}
-			&_title {
-				margin-left: 1.2rem;
-				line-height: 24px;
-				font-weight: 500;
-			}
-			&:first-child {
-				margin-top: 0;
-			}
-			&:last-child {
-				margin-bottom: 0;
-				border-bottom: none;
+		}
+		.box_content {
+			flex: 1;
+			display: none;
+			background-color: transparent;
+			box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
+				rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+			border-radius: $radius;
+			background-color: rgba(255, 255, 255, 0.199);
+			@media (min-width: $breakPoint) {
+				display: block;
 			}
 		}
 	}
@@ -111,7 +154,10 @@ body {
 	.blob {
 		z-index: 1;
 		position: absolute;
-
+		display: none;
+		@media (max-width: $breakPoint) {
+			display: block;
+		}
 		&.blob1 {
 			width: 20rem;
 			height: 20rem;
@@ -119,7 +165,7 @@ body {
 			background-color: #8bc6ec;
 			background-image: linear-gradient(135deg, #8bc6ec 0%, #9599e2 100%);
 			border-radius: 70% 35% 36% 59% / 54% 40% 60% 56%;
-			@media (max-width: 555px) {
+			@media (max-width: $breakPoint) {
 				left: -20%;
 			}
 		}
@@ -131,7 +177,7 @@ body {
 			border-radius: 73% 80% 78% 88% / 100% 76% 88% 49%;
 			background-color: #fbac7ee5;
 			background-image: linear-gradient(62deg, #fbac7ee5 0%, #f7cf68e1 100%);
-			@media (max-width: 555px) {
+			@media (max-width: $breakPoint) {
 				bottom: -5rem;
 				left: -20%;
 			}
@@ -145,8 +191,26 @@ body {
 			background-color: #a9c9ff;
 			background-image: linear-gradient(180deg, #a9c9ff 0%, #ffbbec 100%);
 			border-radius: 100% 0% 100% 100% / 100% 74% 100% 73%;
-			@media (max-width: 555px) {
+			@media (max-width: $breakPoint) {
 				right: -50%;
+			}
+		}
+		&.blob4 {
+			width: 20rem;
+			height: 20rem;
+			top: 30%;
+			left: 30%;
+			transform: rotate(45deg);
+			background-color: #ff9a8b;
+			background-image: linear-gradient(
+				90deg,
+				#ff9a8b 0%,
+				#ff6a88 55%,
+				#ff99ac 100%
+			);
+			border-radius: 100% 100% 100% 100% / 100% 44% 100% 63%;
+			@media (max-width: $breakPoint) {
+				display: none;
 			}
 		}
 	}
@@ -242,5 +306,17 @@ body {
 				}
 			}
 		}
+	}
+}
+.canvas {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 1;
+	display: none;
+	@media (min-width: $breakPoint) {
+		display: block;
 	}
 }
