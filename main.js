@@ -1,11 +1,11 @@
 const container = document.querySelector('.container')
 const boxContainer = document.querySelector('.box_container')
 const modal = document.querySelector('.modal')
-
+let modalContainer
+let modalHeading
+let modalHeadingTitle
 const timeOut = 200
 
-// Check mobile
-const isMobileDevice = /Mobi/i.test(window.navigator.userAgent)
 const dataButton = [
 	{
 		title: 'Thông tin cá nhân',
@@ -32,6 +32,7 @@ const dataButton = [
 				<div class="modal_content_container_box">
 					<p>REACTJS</p>
 				</div>
+				
 			`,
 		back: false,
 	},
@@ -56,11 +57,7 @@ const dataButton = [
 		title: 'Thông tin liên hệ',
 		icon: 'M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z',
 		description: `<div class="social">
-						<a href="${
-							isMobileDevice
-								? 'fb://profile/100006281826099'
-								: 'https://facebook.com/mai.tritoann'
-						}" 
+						<a href="https://facebook.com/mai.tritoann" 
 						target="_blank"
 						class="social-item">
 							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
@@ -142,6 +139,9 @@ function handleOpenModal() {
 			setTimeout(() => {
 				modal.style.transition = ''
 			}, timeOut)
+			modalContainer = document.querySelector('.modal_content_container')
+			modalHeading = document.querySelector('.modal_heading')
+			modalHeadingTitle = document.querySelector('.modal_heading_title')
 		}
 	})
 }
@@ -150,9 +150,18 @@ function handleTouchModal() {
 	if (window.screen.width >= 555) return
 	let isClose = false,
 		touchPosition,
+		isScroll = false,
 		screenHeight = window.screen.height
 
 	const handleTouchStart = (e) => {
+		if (e.target == modalHeading || e.target == modalHeadingTitle) {
+			isScroll = false
+		} else {
+			if (modalContainer.scrollTop > 0) {
+				isScroll = true
+			}
+		}
+
 		touchPosition = e.touches[0].clientY
 	}
 
@@ -161,16 +170,18 @@ function handleTouchModal() {
 		if (touch == null) return
 		let currentTouch = e.touches[0].clientY
 		let difference = currentTouch - touch
-		if (difference > 0) {
-			container.style.transform = `scale(${
-				difference / screenHeight / 25 + 0.96
-			})`
-			modal.style.marginTop = `${Math.floor(difference)}px`
-		}
-		if (difference < screenHeight / 2.5) {
-			isClose = false
-		} else {
-			isClose = true
+		if (!isScroll) {
+			if (difference > 0) {
+				container.style.transform = `scale(${
+					difference / screenHeight / 25 + 0.96
+				})`
+				modal.style.marginTop = `${Math.floor(difference)}px`
+			}
+			if (difference < screenHeight / 2.5) {
+				isClose = false
+			} else {
+				isClose = true
+			}
 		}
 	}
 
@@ -186,6 +197,7 @@ function handleTouchModal() {
 			}, timeOut)
 		}
 		isClose = false
+		isScroll = false
 	}
 
 	modal.addEventListener('touchstart', handleTouchStart)
